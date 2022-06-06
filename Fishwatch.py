@@ -34,7 +34,6 @@ Individual_fishes = {}
 data_complete = False
 
 counter = False
-get = []
 
 
 url = []
