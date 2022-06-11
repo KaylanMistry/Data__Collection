@@ -208,12 +208,12 @@ class Scraper:
                 fish = fishes_container.find_elements_by_xpath('./a')[i]
                 fish.click()
                 this_url = self.driver.current_url
-                if this_url in df.values:
-                    print('This Object has already been scraped')
-                    counter = True
-                    pass
-                else:
-                    print('This Object has not been scraped')
+                # if this_url in df.values:
+                #     print('This Object has already been scraped')
+                #     counter = True
+                #     pass
+                # else:
+                #     print('This Object has not been scraped')
                 counter = False
                 if counter == True:
                     bot.driver.back()
@@ -326,6 +326,7 @@ class Scraper:
                 new_data = overview_cont.find_elements_by_xpath('./a')[i]
                 overview = new_data.text
                 data.append(overview)
+            print(data)
             Fish['Basic_info'].append(data)
 
         except:
@@ -469,24 +470,24 @@ class Scraper:
 
             pngFile.rename(currentFolder / pngFile.name)
     
-    def check_data(self, url, uuid__):
+    # def check_data(self, url, uuid__):
 
-        try:
-            chosen_url = url
-            chosen_uuid = uuid__
+    #     try:
+    #         chosen_url = url
+    #         chosen_uuid = uuid__
             
-            if chosen_url in df.values:
-                print('Value already in Dataframe')
-                bot.driver.back()
-            elif chosen_uuid in df.values:
-                print('Value already in Dataframe')
-                bot.driver.back()
-            else:
-                print('Value not in Dataframe')
+    #         if chosen_url in df.values:
+    #             print('Value already in Dataframe')
+    #             bot.driver.back()
+    #         elif chosen_uuid in df.values:
+    #             print('Value already in Dataframe')
+    #             bot.driver.back()
+    #         else:
+    #             print('Value not in Dataframe')
                 
         
-        except:
-            print('Could not complete data check')
+        # except:
+        #     print('Could not complete data check')
     
     def get_images_(self):
         image_cont = self.driver.find_element_by_xpath('//section[@id="page"]')
@@ -510,14 +511,39 @@ class Scraper:
 
         for i, scr in enumerate(tqdm(self.images_link)):
             print(scr)
-            urllib.request.urlretrieve(scr, f'{path}/{self.fish}/{self.fish}_{i}.png')        
+            urllib.request.urlretrieve(scr, f'{path}/{self.fish}/{self.fish}_{i}.png')
+
+    def get_basic_info_for_scraper(self):
+        '''
+        This function obtains the first section of the information, on the fishes' webpage.
+
+        Needs to already be on the webpage of the fish you want to scrape for this function to work.
+
+        '''
+        try:
+            overview_cont = self.driver.find_element_by_xpath('//*[@id="overview"]')
+            overview_list = overview_cont.find_elements_by_xpath('./a')
+            data = []
+            num_data = len(overview_list)
+
+            for i in range(num_data):
+                overview_cont = self.driver.find_element_by_xpath('//*[@id="overview"]')
+                new_data = overview_cont.find_elements_by_xpath('./a')[i]
+                overview = new_data.text
+                data.append(overview)
+            print(data)
+           
+            return data
+
+        except:
+            print('Could not obtain "Basic information" of the Fish')       
        
         
 
 
 if __name__ == '__main__':
 
-    bot = Scraper("https://www.fishwatch.gov")
+    bot = Scraper("bluefish")
     time.sleep(0.5)
     time.sleep(2)
 
@@ -527,6 +553,7 @@ if __name__ == '__main__':
     bot.get_id('seafood-profile')
     time.sleep(2)
     bot.get_images('//a[@class="seafood-profile"]')
+    bot.get_basic_info_for_scraper
 
 arrays = Fish['Name'], Fish['URL'], Fish['UUID'], Fish['Image'], Fish['AKA'], Fish['Basic_info'], Fish['Facts'], Fish['Fishery'], Fish['Farming'], Fish['Science']
 max_length = 0
