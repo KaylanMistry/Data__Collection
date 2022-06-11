@@ -1,0 +1,12 @@
+flask
+redis
+requests
+selenium
+tqdm
+pathlib
+
+uuid
+
+pandas
+sqlalchemy
+webdriver_manager
