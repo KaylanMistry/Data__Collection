@@ -497,8 +497,6 @@ class Scraper:
             image_cont = self.driver.find_element_by_xpath('//section[@id="page"]')
             image_data = image_cont.find_elements_by_xpath('//section[@id="page"]//img')[i]
             self.images_link.append(image_data.get_attribute('src'))
-            # Fish['Image'].append(self.images_link)
-            print(self.images_link)
         self.images_link.pop()
         return self.images_link
 
@@ -521,7 +519,6 @@ if __name__ == '__main__':
 
     bot = Scraper("https://www.fishwatch.gov")
     time.sleep(0.5)
-    # bot.click_wild('/html/body/header/div/nav/ul/li[1]/ul/li/a[3]')
     time.sleep(2)
 
 
@@ -530,13 +527,6 @@ if __name__ == '__main__':
     bot.get_id('seafood-profile')
     time.sleep(2)
     bot.get_images('//a[@class="seafood-profile"]')
-    
-#     bot.click_fishes('//section[@class="seafood-profiles"]')
-#     bot.get_uuid(107)
-  
-
-#     time.sleep(2)
-#     driver.quit()
 
 arrays = Fish['Name'], Fish['URL'], Fish['UUID'], Fish['Image'], Fish['AKA'], Fish['Basic_info'], Fish['Facts'], Fish['Fishery'], Fish['Farming'], Fish['Science']
 max_length = 0
@@ -549,8 +539,3 @@ for array in arrays:
 df = pd.DataFrame(Fish)
 time.sleep(1)
 print(df)
-
-# bot.check_data('https://www.fishwatch.gov/profiles/atlantic-salmon-farmed')
-# for i in df.index:
-#     time.sleep(1)
-#     df.loc[i].to_json(f"{Fish['Name'][i]}.json".format(i))
