@@ -40,10 +40,6 @@ url = []
 Name = []
 uuid_ = []
 
-Fish_data = {'Image': [], 'AKA' : [], 'Basic_info' : [], 'Facts' : [], 'Fishery' : [], 'Science' : []}
-
-Fish_data_farming = {'Image': [], 'AKA' : [], 'Basic_info' : [], 'Facts' : [], 'Farming' : [], 'Science' : []}
-
 Fish = {'Name': [] , 'URL': [], 'UUID': [], 'Image': [], 'AKA' : [], 'Basic_info' : [], 'Facts' : [], 'Fishery' : [], 'Farming': [], 'Science' : []}
 
 
@@ -198,8 +194,19 @@ class Scraper:
             print('Could not generate UUID for Fish')
 
     def click_fishes(self, xpath):
+        '''
+        This function is used to select each fish - to be used as a crawler implementing the other methods to scrape data on each page
+        
+        User needs to add the section of the xpath (//section[@class="seafood-profiles"]) to activate this method.
+
+        Methods can be added and removed depending on what the user needs.  
+
+        Note that due to the site's structural differences between the 'Farmed' and 'Wild', the crawler only operates successfully 
+        when looking at soley 'Wild' fish or 'Farmed' fish.  These can be accessed individaully by implementing the method to 'click wild' or 
+        'click farmed'
+        '''
         try:
-            fishes_container = self.driver.find_element_by_xpath(xpath) # Put this in after driver and all_profiles.click()
+            fishes_container = self.driver.find_element_by_xpath(xpath)
             fishes_list = fishes_container.find_elements_by_xpath('//section[@class="seafood-profiles"]//descendant::a')
             num_fishes = len(fishes_list)
             time.sleep(1)
@@ -208,12 +215,12 @@ class Scraper:
                 fish = fishes_container.find_elements_by_xpath('./a')[i]
                 fish.click()
                 this_url = self.driver.current_url
-                # if this_url in df.values:
-                #     print('This Object has already been scraped')
-                #     counter = True
-                #     pass
-                # else:
-                #     print('This Object has not been scraped')
+                if this_url in df.values:
+                    print('This Object has already been scraped')
+                    counter = True
+                    pass
+                else:
+                    print('This Object has not been scraped')
                 counter = False
                 if counter == True:
                     bot.driver.back()
@@ -228,15 +235,10 @@ class Scraper:
                 time.sleep(2)
                 bot.get_fishery_info('//a[@class="expand-toggle profiles-toggle"]') 
                 time.sleep(2)
-                
                 bot.get_science_info('science')
                 time.sleep(2)
-                
-                
-
-
                 bot.driver.back()
-                # bot.move_images('*.png')
+                bot.move_images('*.png')
         except:
             print('Could not click all fishes')
 
@@ -470,24 +472,24 @@ class Scraper:
 
             pngFile.rename(currentFolder / pngFile.name)
     
-    # def check_data(self, url, uuid__):
+    def check_data(self, url, uuid__):
 
-    #     try:
-    #         chosen_url = url
-    #         chosen_uuid = uuid__
+        try:
+            chosen_url = url
+            chosen_uuid = uuid__
             
-    #         if chosen_url in df.values:
-    #             print('Value already in Dataframe')
-    #             bot.driver.back()
-    #         elif chosen_uuid in df.values:
-    #             print('Value already in Dataframe')
-    #             bot.driver.back()
-    #         else:
-    #             print('Value not in Dataframe')
+            if chosen_url in df.values:
+                print('Value already in Dataframe')
+                bot.driver.back()
+            elif chosen_uuid in df.values:
+                print('Value already in Dataframe')
+                bot.driver.back()
+            else:
+                print('Value not in Dataframe')
                 
         
-        # except:
-        #     print('Could not complete data check')
+        except:
+            print('Could not complete data check')
     
     def get_images_(self):
         image_cont = self.driver.find_element_by_xpath('//section[@id="page"]')
