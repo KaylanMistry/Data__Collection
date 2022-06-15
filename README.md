@@ -35,3 +35,18 @@ However, at the end of testing I realised that the website structure was slightl
 After constructing another method to suit the 'Farmed' fish, I decided to create a crawler to scrape the 'Wild' fish and edit this crawler to scrape the 'Farmed' fish.  This way I wouldn't have repeated code and I could spend less time monitoring the crawler. 
 Succeeding this task, I generated another RDS database and using pandas, I constructed and uploaded the tabular data to the new S3 bucket and well as the image data.
 
+Milestone 6:
+
+During this milestone, I made sure my scraper ran perfectly, adding features like tqdm to show visually how close the data was to be downloaded.
+In addition I finalised all public test methods and created a method to prevent the data from being rescraped using their unique ID.
+After finding out I needed to run different crawlers, I created two different folders, one for 'Farmed' and another for 'Wild'.
+
+Milestone 7:
+
+In this section I converted all the data into tables using pandas and created another method to check the data within that table.
+Following this I used two of the methods and created a Dockerfile which allowed me to build my scraper locally and test these methods in runs.
+To add onto this I made the scraper run on headless mode, and rebuilt the docker image concequently. 
+As this was successful, I constructed the final docker image and push this onto my Dockerhub account. 
+After this to confirm that the docker image didn't just run locally, I initiated an EC2 instance and built and ran the image onto there.
+
+Milestone 8:
