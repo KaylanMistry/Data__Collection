@@ -1,6 +1,8 @@
 # Data__Collection
 This is a repository containing my code to scrape the website: https://www.fishwatch.gov/
 
+Below displays the steps I took and the goals I achieved during this project.
+
 Milestone 1:
 
 Initially, my task was to find a website that firstly, I was interested in, and secondly that was set up to be scraped. 
@@ -50,3 +52,11 @@ As this was successful, I constructed the final docker image and push this onto 
 After this to confirm that the docker image didn't just run locally, I initiated an EC2 instance and built and ran the image onto there.
 
 Milestone 8:
+
+In this milestone I needed to set up a Prometheus container to run the scraper. To do this I needed to configure a prometheus.yml file and run the scraper in detach mode.
+Next, I created a node exporter to monitor the hardware metrics when running the scraper locally and furthermore created a daemon.yml file to monitor the metrics of the container.
+To see if the metrics were actually being sent, the website displayed if the nodes were 'UP' on the /targets page. Later once I sorted out the issues with these, I created a dashboard in Grafana to monitor the containers and hardware metrics of the EC2 instance.
+
+Milestone 9:
+
+To create a way to pull the most recent docker image
